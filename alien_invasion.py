@@ -32,10 +32,17 @@ class AlienInvasion:
             self._check_events()
             self.ship.update()
             self.bullets.update()
-            self._upgrade_screen()          
 
-    def _check_events(self):
-        # respond to keyboard and mouse events.
+            # Get rid of bullets that have disappeared.
+            for bullet in self.bullets.copy():
+                if bullet.rect.bottom <= 0:
+                    self.bullets.remove(bullet)
+            print(len(self.bullets))
+
+            self._update_screen()          
+
+    def _check_events(self):    
+        # respond to keyboard and mouse events.           
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
@@ -68,7 +75,7 @@ class AlienInvasion:
         new_bullet = Bullet(self)
         self.bullets.add(new_bullet)
 
-    def _upgrade_screen(self):
+    def _update_screen(self):
         '''updaye images on the screen, and flip to the new screen'''
         self.screen.fill(self.settings.bg_color)
         self.ship.blitme()
