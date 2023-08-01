@@ -11,6 +11,7 @@ class AlienInvasion:
         '''initialize the game, and create game resources.'''
         pygame.init()
         self.settings = Settings()
+        self.bullets = pygame.sprite.Group()
 
         self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         #set fullscreen
@@ -29,6 +30,7 @@ class AlienInvasion:
         while True:
             self._check_events()
             self.ship.update()
+            self.bullets.update()
             self._upgrade_screen()          
 
     def _check_events(self):
