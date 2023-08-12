@@ -95,6 +95,7 @@ class AlienInvasion:
             self.stats.reset_stats()
             self.stats.game_active = True
             self.sb.prep_score()
+            self.sb.prep_level()
 
             #get rid of any remaining aliens and bullets.
             self.aliens.empty()
@@ -132,12 +133,16 @@ class AlienInvasion:
         if collisions:
             self.stats.score += self.settings.alien_points
             self.sb.prep_score() # modify score
+            self.sb.check_high_score()
         if not self.aliens:
             #destroying existing bullets and create new fleet.
             self.bullets.empty()
             self._create_fleet()
             self.settings.increase_speed()
-
+            
+            #Increase level
+            self.stats.level += 1
+            self.sb.prep_level()
 
     def _update_screen(self):
         '''updaye images on the screen, and flip to the new screen'''
@@ -182,7 +187,7 @@ class AlienInvasion:
         alien_width, alien_height = alien.rect.size
         alien.x = alien_width + 2 * alien_width * alien_number
         alien.rect.x = alien.x
-        alien.rect.y = alien_height + 2 * alien_height * row_number
+        alien.rect.y = 30 + alien_height + 1.5 * alien_height * row_number
         self.aliens.add(alien)
 
     def _update_aliens(self):
